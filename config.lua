@@ -4,6 +4,10 @@
 -- Forum: https://www.reddit.com/r/lunarvim/
 -- Discord: https://discord.com/invite/Xb9B4Ny
 
+-- Seta algumas configs permanentes no vim
+vim.o.wrap = true
+vim.o.linebreak = true
+
 -- Instala o Markdown Preview
 lvim.plugins = {
   {
