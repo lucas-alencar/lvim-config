@@ -23,3 +23,19 @@ lvim.builtin.which_key.mappings["m"] = {
   p = { "<cmd>MarkdownPreview<CR>", "Preview" },
   s = { "<cmd>MarkdownPreviewStop<CR>", "Stop preview" },
 }
+
+-- Closes vim preview on lvim exit
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    pcall(function()
+      vim.cmd("MarkdownPreviewStop")
+    end)
+  end,
+})
+
+-- Autosave on TextChange or "esc" pressed
+vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged"}, {
+  pattern = "*",
+  command = "silent! wall",
+})
+
