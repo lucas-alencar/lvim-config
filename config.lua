@@ -8,7 +8,10 @@
 vim.o.wrap = true
 vim.o.linebreak = true
 
--- Instala o Markdown Preview
+-- Add empty line at EOF
+vim.opt.fixendofline = true
+
+-- Installs the MarkdownPreview
 lvim.plugins = {
   {
     "iamcco/markdown-preview.nvim",
