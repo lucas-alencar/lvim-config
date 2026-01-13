@@ -8,12 +8,60 @@
 vim.o.wrap = true
 vim.o.linebreak = true
 
--- Instala o Markdown Preview
+-- Add empty line at EOF
+vim.opt.eol = true
+vim.opt.fixendofline = true
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function()
+    if vim.fn.getline("$") ~= "" then
+      vim.fn.append(vim.fn.line("$"), "")
+    end
+  end,
+})
+
 lvim.plugins = {
+  -- Installs the MarkdownPreview
   {
     "iamcco/markdown-preview.nvim",
     build = "cd app && npm install",
     ft = { "markdown" },
+  },
+  -- Installs the quarto preview
+  {
+    "quarto-dev/quarto-nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "jmbuhr/otter.nvim",
+    },
+    config = function()
+      require("quarto").setup({
+        lspFeatures = {
+          enabled = true,
+          languages = { "r", "python", "julia", "bash" },
+        },
+      })
+    end,
+  },
+  -- Installs the nvim Surround
+  {
+    "kylechui/nvim-surround",
+    version = "*",
+    event = "VeryLazy",
+    config = function ()
+      require("nvim-surround").setup({
+        -- Add b as boolean shortcut
+        surrounds = {
+          -- b vai envolver o texto com dois asteriscos
+          ["n"] = {
+            add = { "**", "**" },
+            find = "%*%*(.-)%*%*",  -- regex para localizar o texto já envolto
+            delete = "^%*%*(.-)%*%*$",
+            change = "^%*%*(.-)%*%*$",
+          },
+        },
+      })
+    end,
   },
 }
 
